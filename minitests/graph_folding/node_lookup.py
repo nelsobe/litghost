@@ -87,10 +87,15 @@ class NodeLookup(object):
         for tile_type_name in db.get_tile_types():
             c.execute(
                 "INSERT INTO tile_type(name) VALUES (?);", (tile_type_name, ))
+            #BEN Add tile type name into tile_type table
+            print(f"Inserting tile_type: {tile_type_name}")
             tile_type_pkey = c.lastrowid
+            #BEN Mark tile_type with its key
             tile_type_pkeys[tile_type_name] = tile_type_pkey
+            #BEN Get the actual tile type
             tile_type = db.get_tile_type(tile_type_name)
 
+            #BEN Make a set of nets that drive pips in this tile
             wires_with_pips = set()
             for pip in tile_type.get_pips():
                 wires_with_pips.add(pip.net_from)
@@ -98,12 +103,14 @@ class NodeLookup(object):
                 if not pip.is_directional:
                     wires_with_pips.add(pip.net_to)
 
+            #BEN Fill up wire_in_tile table with wires that drive pips (it thus ignores pass through wires)
             for wire in tile_type.get_wires():
                 c.execute(
                     "INSERT INTO wire_in_tile(name, tile_type_pkey, has_pip_from) VALUES (?, ?, ?);",
                     (wire, tile_type_pkey, wire in wires_with_pips))
                 wire_in_tile_pkeys[tile_type_name, wire] = c.lastrowid
 
+            #BEN Fill up pip_in_tile table (the pip records for a given tile type)
             for pip in tile_type.get_pips():
                 c.execute(
                     "INSERT INTO pip_in_tile(tile_type_pkey, wire0_in_tile_pkey, wire1_in_tile_pkey, is_directional) VALUES (?, ?, ?, ?);",
@@ -113,6 +120,7 @@ class NodeLookup(object):
                         wire_in_tile_pkeys[tile_type_name, pip.net_to],
                         pip.is_directional))
 
+        #BEN Create entries for tile table, then create list of tile_pkeys indexed by tile_name
         tile_pkeys = {}
         for tile_name in progressbar(grid.tiles()):
             x, y = grid.loc_of_tilename(tile_name)
@@ -123,8 +131,10 @@ class NodeLookup(object):
                 (tile_name, tile_type_pkeys[tile_type], x, y))
             tile_pkeys[tile_name] = c.lastrowid
 
+        #BEN This is flattened node database - if wire what is its wire (uses nodewires.json)
         node_model = db.node_model(progressbar)
 
+        #BEN Build node table containing tile and wire_in_tile keys
         for node_tile, node_wire in progressbar(node_model.get_nodes()):
             tile_pkey = tile_pkeys[node_tile]
             gridinfo = grid.gridinfo_at_tilename(node_tile)

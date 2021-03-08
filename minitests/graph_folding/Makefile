@@ -49,6 +49,24 @@ build_patterns: ${DATABASE} reduce_graph_for_type.py distributed_bsc.py referenc
 				--node_to_wires \
 				--tile &> build_${PART}/node_to_wires.log
 
+build_patterns1: ${DATABASE} reduce_graph_for_type.py distributed_bsc.py reference_model.py
+	python3 print_tile_types.py | \
+		/usr/bin/time -v xargs -n1 \
+			/usr/bin/time -v python3 reduce_graph_for_type.py \
+				--database ${DATABASE} \
+				--output_dir build_${PART} \
+				--node_to_wires \
+				--only_pips \
+				--tile 
+
+one_pattern: brent_reduce_graph_for_type.py distributed_bsc.py reference_model.py
+				python3 brent_reduce_graph_for_type.py \
+				--database ${DATABASE} \
+				--output_dir build_${PART} \
+				--node_to_wires \
+				--only_pips \
+				--tile ${TILE}
+
 check_patterns:
 	/usr/bin/time -v python3 check_patterns.py \
 		--database ${DATABASE} \

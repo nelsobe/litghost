@@ -34,17 +34,20 @@ class BipartiteAdjacencyMatrix():
         assert vj in self.v
         self.edges.add((ui, vj))
 
+    #BEN Build a bitmaps reflecting which tile is associated with each node_to_wire and the other way around
     def build(self):
         self.u = sorted(self.u)
         self.v = sorted(self.v)
 
         edges = self.edges
+        #BEN
         self.edges = None
         self.frozen_edges = edges
 
         self.ui_to_idx = {}
         self.vj_to_idx = {}
 
+        #BEN Assign each u and v to an integer index
         for idx, ui in enumerate(self.u):
             self.ui_to_idx[ui] = idx
 
@@ -71,11 +74,13 @@ class BipartiteAdjacencyMatrix():
             self.u_to_v[ui_idx][vj_idx] = True
             self.v_to_u[vj_idx][ui_idx] = True
 
+        #BEN Mark bitmap to reflect u and v (both directions)
         for ui, vj in edges:
             add_edge(ui, vj)
             assert self.is_edge(ui, vj)
             assert self.is_edge_reverse(ui, vj)
 
+        # Check that bitmap set up correctly
         for ui_idx in range(len(self.u)):
             for vj_idx in range(len(self.v)):
                 ui = self.u[ui_idx]
