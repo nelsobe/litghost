@@ -1,0 +1,82 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "brent_node_to_pip_wires",
+            "type": "python",
+            "request": "launch",
+            "program": "brent_reduce_graph_for_type.py",
+            "console": "integratedTerminal",
+            "args": ["--database", "build_xc7a100tfgg676-1/xc7a100tfgg676-1.db", 
+                "--output_dir", "build_xc7a100tfgg676-1", "--node_to_wires", "--only_pips", 
+                "--tile", "CLK_PMV"]
+
+        },
+        {
+            "name": "node_to_pip_wires",
+            "type": "python",
+            "request": "launch",
+            "program": "reduce_graph_for_type.py",
+            "console": "integratedTerminal",
+            "args": ["--database", "build_xc7a100tfgg676-1/xc7a100tfgg676-1.db", 
+                "--output_dir", "build_xc7a100tfgg676-1", "--node_to_wires", "--only_pips", 
+                "--tile", "CLK_PMV"]
+
+        },
+        {
+            "name": "brent",
+            "type": "python",
+            "request": "launch",
+            "program": "brent_reduce_graph_for_type.py",
+            "console": "integratedTerminal",
+            "args": ["--database", "build_xc7a100tfgg676-1/xc7a100tfgg676-1.db", 
+                "--output_dir", "build_xc7a100tfgg676-1", "--node_to_wires", "--only_pips",
+                "--tile", "CLK_PMV"]
+
+        },
+        {
+            "name": "wire_to_node",
+            "type": "python",
+            "request": "launch",
+            "program": "reduce_graph_for_type.py",
+            "console": "integratedTerminal",
+            "args": ["--database", "build_xc7a100tfgg676-1/xc7a100tfgg676-1.db", 
+                "--output_dir", "build_xc7a100tfgg676-1", "--wire_to_node", 
+                "--tile", "DSP_R"]
+
+        },
+        {
+            "name": "node_to_wires",
+            "type": "python",
+            "request": "launch",
+            "program": "reduce_graph_for_type.py",
+            "console": "integratedTerminal",
+            "args": ["--database", "build_xc7a100tfgg676-1/xc7a100tfgg676-1.db", 
+                "--output_dir", "build_xc7a100tfgg676-1", "--node_to_wires",
+                "--tile", "CLK_PMV"]
+
+        },
+        {
+            "name": "brent_dumpdb",
+            "type": "python",
+            "request": "launch",
+            "program": "brent_dumpdb.py",
+            "console": "integratedTerminal",
+            "args": ["--database", "build_xc7a100tfgg676-1/xc7a100tfgg676-1.db", 
+                "--output_dir", "build_xc7a100tfgg676-1",
+                "--tile", "HCLK_CMT"]
+
+        }    
+    ]
+}

@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "/home/nelson/miniconda/envs/litghost/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+}
