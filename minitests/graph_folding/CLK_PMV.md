@@ -49,7 +49,19 @@ Tile_to_tile_patterns:  len= 2
   0 [9243]
   1 [0]
 Size on disk:  384
-##############################################################################
-Access method:
 
-subgraph = Tile_patterns_data[Tile_to_tile_patterns_hash(tileNum)]
+####Tile 9243 maps to tile_patterns[0] which is subgraph[0]
+####Subgraph[0] (and all other subgraphs) contain 3 entries, one for each nwit from this tile
+####Subgraph[0]: [0, 1, 2]
+    ####Subgraph[0][0]=0, Node_patterns_data[0]=(0,)
+    ####node_wire_tile_pkeys_array[0]=8379 - this is the node's first wire (alias for node since node #'s never show up)
+    ####node_patterns_data[0]=0,wire_patterns[0]= 73944 -1, -3
+
+    ####Subgraph[0][1]=1, Node_patterns_data[1]=(1,)
+    ####node_wire_tile_pkeys_array[1]=8435 - this is the node's first wire (alias for node since node #'s never show up)
+    ####node_patterns_data[1]=1,wire_patterns[1]= 73952 -1, -3
+
+    ####Subgraph[0][2]=2, Node_patterns_data[2]=(2,)
+    ####node_wire_tile_pkeys_array[2]=8463 - this is the node's first wire (alias for node since node #'s never show up)
+    ####node_patterns_data[2]=2,wire_patterns[2]= 73956 -1, -3
+
