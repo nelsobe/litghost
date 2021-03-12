@@ -211,3 +211,35 @@ class NodeToWiresLookup():
                 wire_pattern_idx]
 
             yield wire_x, wire_y, wire_in_tile_pkey
+
+    def brent_get_wires_for_node(self, tile_pkey, node_wire_in_tile_pkey):
+        #yield (x, y, node_wire_in_tile_pkey)
+
+        node_wire_idx = self.node_wire_in_tile_pkeys.index_get(
+            node_wire_in_tile_pkey, None)
+        if node_wire_idx is None:
+            # This node is only itself!
+            return
+
+        tile_pattern_idx = self.tile_to_tile_patterns[tile_pkey]
+        tile_pattern = self.tile_patterns[tile_pattern_idx]
+
+        node_pattern_idx = None
+        for subgraph_idx in tile_pattern.items:
+            subgraph = self.subgraphs[subgraph_idx]
+
+            if subgraph.items[node_wire_idx] is not None:
+                node_pattern_idx = subgraph.items[node_wire_idx]
+                break
+
+        if node_pattern_idx is None:
+            # This node is only itself!
+            return
+
+        for wire_pattern_idx in self.node_patterns[node_pattern_idx].items:
+            wire_x = self.wire_pattern_dx.items[wire_pattern_idx]
+            wire_y = self.wire_pattern_dy.items[wire_pattern_idx]
+            wire_in_tile_pkey = self.wire_pattern_to_wire.items[
+                wire_pattern_idx]
+
+            yield wire_x, wire_y, wire_in_tile_pkey
